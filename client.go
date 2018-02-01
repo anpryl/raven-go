@@ -549,6 +549,7 @@ func (client *Client) Capture(packet *Packet, captureTags map[string]string) (ev
 	}
 
 	if client.shouldExcludeErr(packet.Message) {
+		close(ch)
 		return
 	}
 
