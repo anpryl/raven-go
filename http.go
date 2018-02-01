@@ -79,12 +79,7 @@ func RecoveryHandler(handler func(http.ResponseWriter, *http.Request)) func(http
 					rvalErr = rvalStrErr
 				}
 				packet := NewPacket(rvalStr, NewException(rvalStrErr, GetOrNewStacktrace(rvalErr, 2, 3, nil)), NewHttp(r))
-				eID, errCh := Capture(packet, nil)
-				go func() {
-					fmt.Println("EventID: ", eID)
-					fmt.Printf("EventID: %v. Recovery handler error: %v", eID, <-errCh)
-				}()
-
+				Capture(packet, nil)
 				w.WriteHeader(http.StatusInternalServerError)
 			}
 		}()
